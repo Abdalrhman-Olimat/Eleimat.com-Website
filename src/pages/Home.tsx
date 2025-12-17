@@ -171,7 +171,7 @@ const Home = () => {
                 <Linkedin className="w-6 h-6" />
               </a>
               <a
-                href="mailto:contact@example.com"
+                href="mailto:abdalrahman@eleimat.com"
                 className="text-primary hover:text-secondary transition-colors p-2 border border-primary/30 hover:border-secondary hover:neon-border-purple"
               >
                 <Mail className="w-6 h-6" />

@@ -10,18 +10,40 @@ const Contact = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus("idle");
     logTerminalAction("Form submitted:", formData.email);
     
-    // Simulate submission
-    setTimeout(() => {
+    try {
+      const response = await fetch("https://formspree.io/f/mldqqyvz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+      
+      if (response.ok) {
+        setFormData({ name: "", email: "", message: "" });
+        setSubmitStatus("success");
+        logTerminalAction("Message sent:", "SUCCESS");
+      } else {
+        throw new Error("Failed to send");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      logTerminalAction("Error:", "FAILED");
+    } finally {
       setIsSubmitting(false);
-      setFormData({ name: "", email: "", message: "" });
-      logTerminalAction("Message sent:", "SUCCESS");
-    }, 1500);
+    }
   };
 
   return (
@@ -125,6 +147,18 @@ const Contact = () => {
                     </>
                   )}
                 </button>
+
+                {/* Status Messages */}
+                {submitStatus === "success" && (
+                  <div className="text-center font-terminal text-primary border border-primary/30 p-3 animate-pulse">
+                    ✓ TRANSMISSION_SUCCESSFUL
+                  </div>
+                )}
+                {submitStatus === "error" && (
+                  <div className="text-center font-terminal text-red-500 border border-red-500/30 p-3">
+                    ✗ TRANSMISSION_FAILED - Please try again
+                  </div>
+                )}
               </form>
             </div>
           </motion.div>
@@ -146,7 +180,7 @@ const Contact = () => {
 
               <div className="space-y-4">
                 <a
-                  href="mailto:contact@example.com"
+                  href="mailto:abdalrahman@eleimat.com"
                   className="flex items-center gap-4 p-4 border border-primary/30 hover:border-secondary hover:bg-secondary/5 transition-all duration-300 group"
                   onClick={() => logTerminalAction("External link:", "Email")}
                 >
@@ -156,13 +190,13 @@ const Contact = () => {
                       EMAIL
                     </p>
                     <p className="font-terminal text-sm text-muted-foreground">
-                      contact@example.com
+                      abdalrahman@eleimat.com
                     </p>
                   </div>
                 </a>
 
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Abdalrhman-Olimat"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 border border-primary/30 hover:border-secondary hover:bg-secondary/5 transition-all duration-300 group"
@@ -174,13 +208,13 @@ const Contact = () => {
                       GITHUB
                     </p>
                     <p className="font-terminal text-sm text-muted-foreground">
-                      github.com/username
+                      github.com/Abdalrhman-Olimat
                     </p>
                   </div>
                 </a>
 
                 <a
-                  href="https://linkedin.com"
+                  href="https://linkedin.com/in/abdalrahman-eleimat"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 border border-primary/30 hover:border-secondary hover:bg-secondary/5 transition-all duration-300 group"
@@ -192,7 +226,7 @@ const Contact = () => {
                       LINKEDIN
                     </p>
                     <p className="font-terminal text-sm text-muted-foreground">
-                      linkedin.com/in/username
+                      linkedin.com/in/abdalrahman-eleimat
                     </p>
                   </div>
                 </a>

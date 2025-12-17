@@ -26,8 +26,10 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
       }}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div
-        className={`relative border-2 p-6 transition-all duration-500 overflow-hidden ${
+      <Link
+        to={`/projects/${project.id}`}
+        onClick={() => logTerminalAction("Accessed project:", project.title)}
+        className={`block relative border-2 p-6 transition-all duration-500 overflow-hidden cursor-pointer ${
           isHovered
             ? "border-secondary bg-secondary/5 neon-border-purple"
             : "border-primary/30 bg-card"
@@ -91,18 +93,16 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
         </div>
 
         {/* Access Button */}
-        <Link
-          to={`/projects/${project.id}`}
+        <div
           className={`inline-flex items-center gap-2 font-terminal text-lg transition-all duration-300 ${
             isHovered
               ? "text-secondary translate-x-2"
               : "text-primary opacity-0 group-hover:opacity-100"
           }`}
-          onClick={() => logTerminalAction("Accessed project:", project.title)}
         >
           {">"} ACCESS_FILE
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </div>
 
         {/* Corner brackets */}
         <div
@@ -125,7 +125,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
             isHovered ? "border-secondary" : "border-primary/30"
           }`}
         />
-      </div>
+      </Link>
     </motion.div>
   );
 };

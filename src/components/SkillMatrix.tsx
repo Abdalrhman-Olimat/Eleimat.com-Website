@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Download } from "lucide-react";
 
 const skills = [
   { name: "C/C++", level: 95, status: "LOADED" },
@@ -100,6 +101,24 @@ export const SkillMatrix = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Download CV Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="flex justify-center mt-12"
+        >
+          <a
+            href="/Abdalrahman E'lemit- CV.pdf"
+            download="Abdalrahman_Eleimat_CV.pdf"
+            className="group flex items-center gap-2 px-8 py-3 border-2 border-primary bg-primary/10 font-terminal text-xl text-primary hover:bg-primary hover:text-background transition-all duration-300 neon-border"
+          >
+            {">"} DOWNLOAD_CV
+            <Download className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

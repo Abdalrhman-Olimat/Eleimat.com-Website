@@ -1,7 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getProjectById } from "@/data/projects";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Linkedin } from "lucide-react";
 import { logTerminalAction } from "@/components/FakeTerminal";
 import { useEffect } from "react";
 
@@ -30,9 +30,9 @@ const ProjectDetail = () => {
         >
           <Link
             to="/projects"
-            className="inline-flex items-center gap-2 font-terminal text-primary hover:text-secondary transition-colors"
+            className="inline-flex items-center gap-2 font-terminal text-xl text-primary hover:text-secondary transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-7 h-7" />
             {">"} BACK_TO_ARCHIVE
           </Link>
         </motion.div>
@@ -75,17 +75,31 @@ const ProjectDetail = () => {
 
           {/* Links */}
           <div className="flex items-center gap-4">
-            <a
-              href={project.githubLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-terminal text-primary hover:text-secondary border border-primary/30 hover:border-secondary px-4 py-2 transition-all duration-300"
-              onClick={() => logTerminalAction("External link:", "GitHub")}
-            >
-              <Github className="w-4 h-4" />
-              SOURCE_CODE
-              <ExternalLink className="w-3 h-3" />
-            </a>
+            {project.id === "deepdive-platform" ? (
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-terminal text-primary hover:text-secondary border border-primary/30 hover:border-secondary px-4 py-2 transition-all duration-300"
+                onClick={() => logTerminalAction("External link:", "LinkedIn")}
+              >
+                <Linkedin className="w-4 h-4" />
+                LINKEDIN
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            ) : (
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-terminal text-primary hover:text-secondary border border-primary/30 hover:border-secondary px-4 py-2 transition-all duration-300"
+                onClick={() => logTerminalAction("External link:", "GitHub")}
+              >
+                <Github className="w-4 h-4" />
+                SOURCE_CODE
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
           </div>
 
           {/* Corner decorations */}
