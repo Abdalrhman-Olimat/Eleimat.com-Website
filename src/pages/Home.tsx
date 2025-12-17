@@ -93,7 +93,7 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="font-cyber text-5xl md:text-7xl lg:text-8xl mb-6 tracking-wider"
+              className="font-cyber text-4xl sm:text-5xl md:text-7xl lg:text-8xl mb-6 tracking-wider px-2"
             >
               <AnimatedGlitchText
                 text="ABDALRAHMAN"
@@ -182,13 +182,15 @@ const Home = () => {
 
         {/* Decorative elements */}
         <motion.div
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="absolute bottom-12 left-1/2"
+          style={{ transform: 'translateX(calc(-50% - 600px))' }}
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <span className="font-terminal text-primary/50 text-sm">
-            {">"} SCROLL_DOWN
-          </span>
+          <div className="font-terminal text-primary/50 text-sm flex items-center justify-center gap-2">
+            <span>{">"}</span>
+            <span>SCROLL_DOWN</span>
+          </div>
         </motion.div>
       </section>
 
