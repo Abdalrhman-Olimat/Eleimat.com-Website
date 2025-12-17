@@ -1,0 +1,293 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* DedSec Cyberpunk Theme */
+    --background: 0 0% 4%;
+    --foreground: 120 100% 55%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 120 100% 55%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 120 100% 55%;
+
+    --primary: 120 100% 55%;
+    --primary-foreground: 0 0% 4%;
+
+    --secondary: 280 100% 57%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 120 100% 40%;
+
+    --accent: 280 100% 57%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 100% 25%;
+    --input: 120 100% 20%;
+    --ring: 120 100% 55%;
+
+    --radius: 0.25rem;
+
+    /* Custom cyberpunk tokens */
+    --neon-green: 120 100% 55%;
+    --neon-purple: 280 100% 57%;
+    --terminal-bg: 0 0% 4%;
+    --terminal-green: 120 100% 55%;
+    --glitch-offset: 2px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-terminal antialiased;
+    background-color: hsl(var(--terminal-bg));
+  }
+
+  /* CRT Scanlines Overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+  }
+
+  /* CRT Screen Flicker */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  }
+
+  ::selection {
+    background: hsl(var(--neon-green) / 0.3);
+    color: hsl(var(--neon-green));
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--terminal-bg));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--neon-green) / 0.5);
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--neon-green));
+  }
+}
+
+@layer utilities {
+  /* Glitch text effect base */
+  .glitch {
+    position: relative;
+    animation: glitch-skew 1s infinite linear alternate-reverse;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch::before {
+    left: var(--glitch-offset);
+    text-shadow: -2px 0 hsl(var(--neon-purple));
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+  }
+
+  .glitch::after {
+    left: calc(var(--glitch-offset) * -1);
+    text-shadow: 2px 0 hsl(var(--neon-green));
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+  }
+
+  /* Neon glow effects */
+  .neon-text {
+    text-shadow: 
+      0 0 5px hsl(var(--neon-green)),
+      0 0 10px hsl(var(--neon-green)),
+      0 0 20px hsl(var(--neon-green)),
+      0 0 40px hsl(var(--neon-green) / 0.5);
+  }
+
+  .neon-text-purple {
+    text-shadow: 
+      0 0 5px hsl(var(--neon-purple)),
+      0 0 10px hsl(var(--neon-purple)),
+      0 0 20px hsl(var(--neon-purple)),
+      0 0 40px hsl(var(--neon-purple) / 0.5);
+  }
+
+  .neon-border {
+    box-shadow: 
+      0 0 5px hsl(var(--neon-green) / 0.5),
+      0 0 10px hsl(var(--neon-green) / 0.3),
+      inset 0 0 5px hsl(var(--neon-green) / 0.1);
+  }
+
+  .neon-border-purple {
+    box-shadow: 
+      0 0 5px hsl(var(--neon-purple) / 0.5),
+      0 0 10px hsl(var(--neon-purple) / 0.3),
+      inset 0 0 5px hsl(var(--neon-purple) / 0.1);
+  }
+
+  /* Terminal cursor blink */
+  .cursor-blink::after {
+    content: "_";
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Typing animation */
+  .typing {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid hsl(var(--neon-green));
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+}
+
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(0deg); }
+  21% { transform: skew(2deg); }
+  22% { transform: skew(0deg); }
+  80% { transform: skew(0deg); }
+  81% { transform: skew(-1deg); }
+  82% { transform: skew(0deg); }
+  100% { transform: skew(0deg); }
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(31px, 9999px, 94px, 0); transform: skew(0.5deg); }
+  5% { clip: rect(70px, 9999px, 71px, 0); transform: skew(0.5deg); }
+  10% { clip: rect(29px, 9999px, 24px, 0); transform: skew(0.5deg); }
+  15% { clip: rect(64px, 9999px, 81px, 0); transform: skew(0.5deg); }
+  20% { clip: rect(47px, 9999px, 30px, 0); transform: skew(0.5deg); }
+  25% { clip: rect(94px, 9999px, 53px, 0); transform: skew(0.5deg); }
+  30% { clip: rect(19px, 9999px, 56px, 0); transform: skew(0.5deg); }
+  35% { clip: rect(74px, 9999px, 29px, 0); transform: skew(0.5deg); }
+  40% { clip: rect(89px, 9999px, 5px, 0); transform: skew(0.5deg); }
+  45% { clip: rect(32px, 9999px, 67px, 0); transform: skew(0.5deg); }
+  50% { clip: rect(12px, 9999px, 98px, 0); transform: skew(0.5deg); }
+  55% { clip: rect(57px, 9999px, 43px, 0); transform: skew(0.5deg); }
+  60% { clip: rect(81px, 9999px, 15px, 0); transform: skew(0.5deg); }
+  65% { clip: rect(44px, 9999px, 88px, 0); transform: skew(0.5deg); }
+  70% { clip: rect(3px, 9999px, 72px, 0); transform: skew(0.5deg); }
+  75% { clip: rect(66px, 9999px, 36px, 0); transform: skew(0.5deg); }
+  80% { clip: rect(25px, 9999px, 91px, 0); transform: skew(0.5deg); }
+  85% { clip: rect(78px, 9999px, 8px, 0); transform: skew(0.5deg); }
+  90% { clip: rect(51px, 9999px, 63px, 0); transform: skew(0.5deg); }
+  95% { clip: rect(9px, 9999px, 47px, 0); transform: skew(0.5deg); }
+  100% { clip: rect(38px, 9999px, 79px, 0); transform: skew(0.5deg); }
+}
+
+@keyframes glitch-anim2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(-0.5deg); }
+  5% { clip: rect(22px, 9999px, 45px, 0); transform: skew(-0.5deg); }
+  10% { clip: rect(87px, 9999px, 12px, 0); transform: skew(-0.5deg); }
+  15% { clip: rect(39px, 9999px, 78px, 0); transform: skew(-0.5deg); }
+  20% { clip: rect(56px, 9999px, 33px, 0); transform: skew(-0.5deg); }
+  25% { clip: rect(14px, 9999px, 91px, 0); transform: skew(-0.5deg); }
+  30% { clip: rect(72px, 9999px, 6px, 0); transform: skew(-0.5deg); }
+  35% { clip: rect(48px, 9999px, 59px, 0); transform: skew(-0.5deg); }
+  40% { clip: rect(95px, 9999px, 27px, 0); transform: skew(-0.5deg); }
+  45% { clip: rect(8px, 9999px, 84px, 0); transform: skew(-0.5deg); }
+  50% { clip: rect(61px, 9999px, 41px, 0); transform: skew(-0.5deg); }
+  55% { clip: rect(33px, 9999px, 97px, 0); transform: skew(-0.5deg); }
+  60% { clip: rect(76px, 9999px, 19px, 0); transform: skew(-0.5deg); }
+  65% { clip: rect(52px, 9999px, 68px, 0); transform: skew(-0.5deg); }
+  70% { clip: rect(17px, 9999px, 82px, 0); transform: skew(-0.5deg); }
+  75% { clip: rect(89px, 9999px, 35px, 0); transform: skew(-0.5deg); }
+  80% { clip: rect(43px, 9999px, 93px, 0); transform: skew(-0.5deg); }
+  85% { clip: rect(28px, 9999px, 54px, 0); transform: skew(-0.5deg); }
+  90% { clip: rect(71px, 9999px, 11px, 0); transform: skew(-0.5deg); }
+  95% { clip: rect(4px, 9999px, 66px, 0); transform: skew(-0.5deg); }
+  100% { clip: rect(58px, 9999px, 88px, 0); transform: skew(-0.5deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: hsl(var(--neon-green)); }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes screen-tear {
+  0% { transform: translateX(0); }
+  2% { transform: translateX(-5px); }
+  4% { transform: translateX(5px); }
+  6% { transform: translateX(-3px); }
+  8% { transform: translateX(3px); }
+  10% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes rgb-shift {
+  0% { text-shadow: 2px 0 hsl(var(--neon-purple)), -2px 0 hsl(var(--neon-green)); }
+  25% { text-shadow: -2px 0 hsl(var(--neon-purple)), 2px 0 hsl(var(--neon-green)); }
+  50% { text-shadow: 2px 2px hsl(var(--neon-purple)), -2px -2px hsl(var(--neon-green)); }
+  75% { text-shadow: -2px 2px hsl(var(--neon-purple)), 2px -2px hsl(var(--neon-green)); }
+  100% { text-shadow: 2px 0 hsl(var(--neon-purple)), -2px 0 hsl(var(--neon-green)); }
+}
+
+.rgb-shift {
+  animation: rgb-shift 0.3s ease-in-out;
+}
+
+/* Boot sequence specific */
+.boot-text {
+  font-family: 'VT323', monospace;
+  color: hsl(var(--neon-green));
+}
