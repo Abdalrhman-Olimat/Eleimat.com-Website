@@ -182,8 +182,7 @@ const Home = () => {
 
         {/* Decorative elements */}
         <motion.div
-          className="absolute bottom-12 left-1/2"
-          style={{ transform: 'translateX(calc(-50% - 600px))' }}
+          className="absolute bottom-24 "
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
